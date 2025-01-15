@@ -61,6 +61,8 @@ typedef struct OwnerNode
 
 // Global head pointer for the linked list of owners
 OwnerNode *ownerHead = NULL;
+OwnerNode *ownerTail = NULL;
+// I added tail just for the sake of the circular list, it's not necessary for the linked list.
 
 /* ------------------------------------------------------------
    1) Safe Input + Utility
@@ -437,6 +439,11 @@ void mergePokedexMenu(void);
  * Why we made it: Demonstrates stepping through a circular list in a chosen direction.
  */
 void printOwnersCircular(void);
+
+/**
+ * @brief Print owners til the ownerTail.
+ */
+void printOwnersNotCircular(void);
 
 /* ------------------------------------------------------------
    12) Cleanup All Owners at Program End
