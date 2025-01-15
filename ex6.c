@@ -1,3 +1,11 @@
+/* ------------------------------------------------------------
+Maxim Muradov
+346975386
+ex6
+------------------------------------------------------------ */
+
+//I structured .c flie like .h so its easier to navigate for you
+
 #include "ex6.h"
 #include <ctype.h>
 #include <stdio.h>
@@ -190,23 +198,180 @@ char *getDynamicInput()
     return input;
 }
 
+/* ------------------------------------------------------------
+   2) Creating & Freeing Nodes
+   ------------------------------------------------------------ */
+OwnerNode *createOwner(char *ownerName, PokemonNode *starter)
+{
+    OwnerNode *ptr = (OwnerNode*)malloc(sizeof(OwnerNode));
+    strcpy(ptr->ownerName, ownerName);
+    ptr->pokedexRoot = starter;
+    ptr->next = NULL;
+    ptr->prev = NULL;
+}
+
+PokemonNode *createPokemonNode(const PokemonData *data)
+{
+    PokemonNode *ptr = (PokemonNode*)malloc(sizeof(PokemonNode));
+    ptr->data = data;
+    ptr->left = NULL;
+    ptr->right = NULL;
+}
+
+void freePokemonNode(PokemonNode *node)
+{
+
+}
+
+void freePokemonTree(PokemonNode *root)
+{
+
+}
+
+void freeOwnerNode(OwnerNode *owner)
+{
+
+}
+
+/* ------------------------------------------------------------
+   3) BST Insert, Search, Remove
+   ------------------------------------------------------------ */
+
+PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode)
+{
+
+}
+
+PokemonNode *searchPokemonBFS(PokemonNode *root, int id)
+{
+
+}
+
+PokemonNode *removeNodeBST(PokemonNode *root, int id)
+{
+
+}
+
+PokemonNode *removePokemonByID(PokemonNode *root, int id)
+{
+
+}
+
+/* ------------------------------------------------------------
+4) Generic BST Traversals (Function Pointers)
+------------------------------------------------------------ */
+
+void BFSGeneric(PokemonNode *root, VisitNodeFunc visit)
+{
+
+}
+
+void preOrderGeneric(PokemonNode *root, VisitNodeFunc visit)
+{
+
+}
+
+void inOrderGeneric(PokemonNode *root, VisitNodeFunc visit)
+{
+
+}
+
+void postOrderGeneric(PokemonNode *root, VisitNodeFunc visit)
+{
+
+}
+
 // Function to print a single Pokemon node
 void printPokemonNode(PokemonNode *node)
 {
     if (!node)
         return;
     printf("ID: %d, Name: %s, Type: %s, HP: %d, Attack: %d, Can Evolve: %s\n",
-           node->data->id,
-           node->data->name,
-           getTypeName(node->data->TYPE),
-           node->data->hp,
-           node->data->attack,
-           (node->data->CAN_EVOLVE == CAN_EVOLVE) ? "Yes" : "No");
+        node->data->id,
+        node->data->name,
+        getTypeName(node->data->TYPE),
+        node->data->hp,
+        node->data->attack,
+        (node->data->CAN_EVOLVE == CAN_EVOLVE) ? "Yes" : "No");
+}
+
+/* ------------------------------------------------------------
+   5) Display Methods (BFS, Pre, In, Post, Alphabetical)
+   ------------------------------------------------------------ */
+
+void initNodeArray(NodeArray *na, int cap)
+{
+
+}
+
+void addNode(NodeArray *na, PokemonNode *node)
+{
+
+}
+
+void collectAll(PokemonNode *root, NodeArray *na)
+{
+
+}
+
+int compareByNameNode(const void *a, const void *b)
+{
+
+}
+
+void displayAlphabetical(PokemonNode *root)
+{
+
+}
+
+void displayBFS(PokemonNode *root)
+{
+
+}
+
+void preOrderTraversal(PokemonNode *root)
+{
+
+}
+
+void inOrderTraversal(PokemonNode *root)
+{
+
+}
+
+void postOrderTraversal(PokemonNode *root)
+{
+
+}
+
+/* ------------------------------------------------------------
+   6) Pokemon-Specific
+   ------------------------------------------------------------ */
+
+void pokemonFight(OwnerNode *owner)
+{
+
+}
+
+void evolvePokemon(OwnerNode *owner)
+{
+
+}
+
+void addPokemon(OwnerNode *owner)
+{
+
+}
+
+void freePokemon(OwnerNode *owner)
+{
+
 }
 
 // --------------------------------------------------------------
-// Display Menu
+// 7)Display Menu
 // --------------------------------------------------------------
+
 void displayMenu(OwnerNode *owner)
 {
     if (!owner->pokedexRoot)
@@ -246,14 +411,66 @@ void displayMenu(OwnerNode *owner)
     }
 }
 
-// --------------------------------------------------------------
-// Sub-menu for existing Pokedex
-// --------------------------------------------------------------
-void enterExistingPokedexMenu()
+/* ------------------------------------------------------------
+   8) Sorting Owners (Bubble Sort on Circular List)
+   ------------------------------------------------------------ */
+
+void sortOwners(void)
+{
+
+}
+
+void swapOwnerData(OwnerNode *a, OwnerNode *b)
+{
+
+}
+
+/* ------------------------------------------------------------
+   9) Circular List Linking & Searching
+   ------------------------------------------------------------ */
+
+void linkOwnerInCircularList(OwnerNode* newOwner)
+{
+    if (ownerHead == ownerTail == NULL)
+    {
+        ownerHead = ownerTail = newOwner;
+    }
+    else
+    {
+        ownerTail->next = newOwner;
+        newOwner->prev = ownerTail;
+        ownerTail = newOwner;
+        newOwner->next = ownerHead;
+        ownerHead->prev = ownerTail;
+    }
+}
+
+void removeOwnerFromCircularList(OwnerNode *target)
+{
+
+}
+
+OwnerNode *findOwnerByName(const char *name)
+{
+
+}
+
+/* ------------------------------------------------------------
+   10) Owner Menus
+   ------------------------------------------------------------ */
+
+void enterExistingPokedexMenu(void)
 {
     // list owners
     printf("\nExisting Pokedexes:\n");
-    // you need to implement a few things here :)
+    printOwnersCircular();
+    int pokedexNum = readIntSafe("Choose a Pokedex by number:\n");
+
+    OwnerNode *cur = ownerHead;
+    for (--pokedexNum; pokedexNum > 0; pokedexNum--)
+            cur = cur->next;
+    //In your version i can travell over one circle so i will not stop al ownerTail
+    
 
     printf("\nEntering %s's Pokedex...\n", cur->ownerName);
 
@@ -296,9 +513,132 @@ void enterExistingPokedexMenu()
     } while (subChoice != 6);
 }
 
-// --------------------------------------------------------------
-// Main Menu
-// --------------------------------------------------------------
+void openPokedexMenu()
+{
+    printf("Enter your name:\n");
+    char *name = getDynamicInput();
+    if (!findOwnerByName(name))
+    {
+        printf("Owner '%s' already exists. Not creating a new Pokedex.\n", name);
+        exit(1);
+    }
+
+   int starter;
+    printf("Choose starter:\n1. Bulbasaur\n2. Charmander\n3. Squirtle\n");
+    starter = readIntSafe("Your choice: ");
+    switch (starter)
+    {
+        case 1:
+        starter = 0;
+        break;
+
+        case 2:
+        starter = 3;
+        break;
+
+        case 3:
+        starter = 6;
+        break;
+
+        default:
+        printf("Invalid choice.\n");
+    }
+    
+    
+    linkOwnerInCircularList(createOwner(name, createPokemonNode(&pokedex[starter])));
+    printf("New Pokedex created for %s with starter %s.\n", name, pokedex[starter].name);
+}
+
+void deletePokedex(void)
+{
+
+}
+
+void mergePokedexMenu(void)
+{
+
+}
+
+/* ------------------------------------------------------------
+   11) Printing Owners in a Circle
+   ------------------------------------------------------------ */
+
+void printOwnersCircular(void)
+{
+    if (ownerHead == ownerTail == NULL)
+    {
+        printf("No owners.\n");
+        exit(1);
+    }
+
+    //idk in you version only char*[0] is checked i will copy)
+    char* direction;
+    char d;
+
+    while (1) // Loop until valid direction
+    {
+        direction = getDynamicInput();
+        
+        if (direction[0] == 'F' && direction[0] == 'f')
+        {
+            d = '+';
+            break;
+        }
+        else if (direction[0] == 'B' && direction[0] == 'b')
+        {
+            d = '-';
+            break;
+        }
+            printf("Invalid direction.\n");
+    }
+
+    int prints = readIntSafe("How many times to print?\n");
+    OwnerNode* ptr = ownerHead;
+
+    for (int i = 0; i < prints; i++)
+    {
+        if (d == '+')
+        {
+            printf("%s\n", ptr->ownerName);
+            ptr = ptr->next;
+        }
+        else
+        {
+            printf("%s\n", ptr->ownerName);
+            ptr = ptr->prev;
+        }
+    }
+}
+
+void printOwnersNotCircular(void)
+{
+    if (ownerHead == ownerTail == NULL)
+    {
+        printf("No existing Pokedexes.\n");
+        exit(1);
+    }
+    
+    OwnerNode* ptr = ownerHead;
+    int i = 1;
+    while(ptr != ownerTail)
+    {
+        printf("%d. %s\n", i, ptr->ownerName);
+    }
+}
+
+/* ------------------------------------------------------------
+   12) Cleanup All Owners at Program End
+   ------------------------------------------------------------ */
+
+void freeAllOwners(void)
+{
+
+}
+
+/* ------------------------------------------------------------
+   13) The Main Menu
+   ------------------------------------------------------------ */
+
 void mainMenu()
 {
     int choice;
@@ -320,6 +660,7 @@ void mainMenu()
             openPokedexMenu();
             break;
         case 2:
+            printOwnersCircular();
             enterExistingPokedexMenu();
             break;
         case 3:
