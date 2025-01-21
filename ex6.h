@@ -45,9 +45,11 @@ typedef struct PokemonData
 // Binary Tree Node (for Pokédex)
 typedef struct PokemonNode
 {
-    PokemonData *data;
+    const PokemonData *data;
     struct PokemonNode *left;
     struct PokemonNode *right;
+    struct PokemonNode *parent;
+    //i've added parent to make it easier to remove a node.
 } PokemonNode;
 
 // Linked List Node (for Owners)
@@ -58,6 +60,16 @@ typedef struct OwnerNode
     struct OwnerNode *next;   // Next owner in the linked list
     struct OwnerNode *prev;   // Previous owner in the linked list
 } OwnerNode;
+
+typedef struct QNode {
+    PokemonNode *pokemonNode;
+    struct QNode *next;
+} QNode;
+
+typedef struct Queue {
+    QNode *qfirst;
+    QNode *qlast;
+} Queue;
 
 // Global head pointer for the linked list of owners
 OwnerNode *ownerHead = NULL;
@@ -159,7 +171,12 @@ void freeOwnerNode(OwnerNode *owner);
  * @return updated BST root
  * Why we made it: Standard BST insertion ignoring duplicates.
  */
-PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode);
+PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode, int printing);
+
+//func for queue i have used it only once in the BFS search but for your pleasure
+struct Queue* InitQueue();
+PokemonNode* DeQue(Queue *q, PokemonNode *node);
+void EnQue(Queue *q, PokemonNode *node);
 
 /**
  * @brief BFS search for a Pokemon by ID in the BST.
@@ -271,6 +288,9 @@ void addNode(NodeArray *na, PokemonNode *node);
  */
 void collectAll(PokemonNode *root, NodeArray *na);
 
+//+1 variation to collectAll
+NodeArray* collectAllBFS(PokemonNode* root);
+
 /**
  * @brief Compare function for qsort (alphabetical by node->data->name).
  * @param a pointer to a pointer to PokemonNode
@@ -279,6 +299,11 @@ void collectAll(PokemonNode *root, NodeArray *na);
  * Why we made it: Sorting by name for alphabetical display.
  */
 int compareByNameNode(const void *a, const void *b);
+
+//func for qsort
+void swapPok(PokemonNode *a, PokemonNode *b);
+int partition(PokemonNode **na, int low ,int high);
+void quicksort(PokemonNode **na, int low ,int high);
 
 /**
  * @brief BFS is nice, but alphabetical means we gather all nodes, sort by name, then print.
