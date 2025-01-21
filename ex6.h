@@ -45,30 +45,32 @@ typedef struct PokemonData
 // Binary Tree Node (for Pokédex)
 typedef struct PokemonNode
 {
-    const PokemonData *data;
+    PokemonData *data;
     struct PokemonNode *left;
     struct PokemonNode *right;
     struct PokemonNode *parent;
     //i've added parent to make it easier to remove a node.
+    //P.S actualy not used, but i dont have time to change all conections i've made
 } PokemonNode;
 
 // Linked List Node (for Owners)
 typedef struct OwnerNode
 {
-    char *ownerName;          // Owner's name
-    PokemonNode *pokedexRoot; // Pointer to the root of the owner's Pokédex
-    struct OwnerNode *next;   // Next owner in the linked list
-    struct OwnerNode *prev;   // Previous owner in the linked list
+   char *ownerName;          // Owner's name
+   PokemonNode *pokedexRoot; // Pointer to the root of the owner's Pokédex
+   struct OwnerNode *next;   // Next owner in the linked list
+   struct OwnerNode *prev;   // Previous owner in the linked list
 } OwnerNode;
 
 typedef struct QNode {
-    PokemonNode *pokemonNode;
-    struct QNode *next;
+   PokemonNode *pokemonNode;
+   struct QNode *next;
 } QNode;
 
 typedef struct Queue {
-    QNode *qfirst;
-    QNode *qlast;
+   QNode *qhead;
+   QNode *qfirst;
+   QNode *qlast;
 } Queue;
 
 // Global head pointer for the linked list of owners
@@ -128,7 +130,7 @@ const char *getTypeName(PokemonType type);
  * @return newly allocated PokemonNode*
  * Why we made it: We need a standard way to allocate BST nodes.
  */
-PokemonNode *createPokemonNode(const PokemonData *data);
+PokemonNode *createPokemonNode(PokemonData *data);
 
 /**
  * @brief Create an OwnerNode for the circular owners list.
@@ -175,7 +177,7 @@ PokemonNode *insertPokemonNode(PokemonNode *root, PokemonNode *newNode, int prin
 
 //func for queue i have used it only once in the BFS search but for your pleasure
 struct Queue* InitQueue();
-PokemonNode* DeQue(Queue *q, PokemonNode *node);
+PokemonNode* DeQue(Queue *q);
 void EnQue(Queue *q, PokemonNode *node);
 
 /**
@@ -187,6 +189,7 @@ void EnQue(Queue *q, PokemonNode *node);
  */
 PokemonNode *searchPokemonBFS(PokemonNode *root, int id);
 
+PokemonNode* findSuccesor(PokemonNode* ptr);
 /**
  * @brief Remove node from BST by ID if found (BST removal logic).
  * @param root BST root
@@ -301,7 +304,7 @@ NodeArray* collectAllBFS(PokemonNode* root);
 int compareByNameNode(const void *a, const void *b);
 
 //func for qsort
-void swapPok(PokemonNode *a, PokemonNode *b);
+void swapPok(PokemonNode **a, PokemonNode **b);
 int partition(PokemonNode **na, int low ,int high);
 void quicksort(PokemonNode **na, int low ,int high);
 
@@ -468,7 +471,7 @@ void printOwnersCircular(void);
 /**
  * @brief Print owners til the ownerTail.
  */
-void printOwnersNotCircular(void);
+int printOwnersNotCircular(void);
 
 /* ------------------------------------------------------------
    12) Cleanup All Owners at Program End
@@ -491,7 +494,7 @@ void freeAllOwners(void);
 void mainMenu(void);
 
 // Array of Pokemon data
-static const PokemonData pokedex[] = {
+static PokemonData pokedex[] = {
     {1, "Bulbasaur", GRASS, 45, 49, CAN_EVOLVE},
     {2, "Ivysaur", GRASS, 60, 62, CAN_EVOLVE},
     {3, "Venusaur", GRASS, 80, 82, CANNOT_EVOLVE},
