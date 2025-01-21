@@ -885,7 +885,7 @@ void sortOwners(void) //alphabetically
 
 void swapOwnerData(OwnerNode *a, OwnerNode *b)//idk what to say fingers burned
 {
-    OwnerNode* tmp;
+    OwnerNode* tmp = (OwnerNode*)malloc(sizeof(OwnerNode));
     tmp->ownerName = a->ownerName;
     tmp->pokedexRoot = a->pokedexRoot;
 
@@ -895,6 +895,7 @@ void swapOwnerData(OwnerNode *a, OwnerNode *b)//idk what to say fingers burned
     b->ownerName = tmp->ownerName;
     b->pokedexRoot = tmp->pokedexRoot;
 
+    free(tmp);
     tmp = NULL;
 }
 
