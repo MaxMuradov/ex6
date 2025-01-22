@@ -1073,7 +1073,7 @@ void enterExistingPokedexMenu(void)//menu?!
 
 void openPokedexMenu()//creation of pokedex
 {
-    printf("Enter your name:\n");
+    printf("Your name: ");
     char *name = getDynamicInput();
 
     if (findOwnerByName(name) != NULL)
@@ -1105,7 +1105,7 @@ void openPokedexMenu()//creation of pokedex
     }
     
     
-    linkOwnerInCircularList(createOwner(name, createPokemonNode(&pokedex[starter], 1)));//link new owner
+    linkOwnerInCircularList(createOwner(name, createPokemonNode(&pokedex[starter], 0)));//link new owner
     printf("New Pokedex created for %s with starter %s.\n", name, pokedex[starter].name);
 }
 
@@ -1291,7 +1291,7 @@ void mainMenu()
         printf("4. Merge Pokedexes\n");
         printf("5. Sort Owners by Name\n");
         printf("6. Print Owners in a direction X times\n");
-        printf("7. return\n");
+        printf("7. Exit\n");
         choice = readIntSafe("Your choice: ");
 
         switch (choice)
