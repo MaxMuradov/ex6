@@ -68,7 +68,6 @@ typedef struct QNode {
 } QNode;
 
 typedef struct Queue {
-   QNode *qhead;
    QNode *qfirst;
    QNode *qlast;
 } Queue;
